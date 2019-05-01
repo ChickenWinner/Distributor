@@ -15,18 +15,18 @@ import wang.reder.distributor.utils.redis.JedisSimpleOperator;
  * email: 1318944013@qq.com
  * date: 2019/4/30 20:50
  */
-public class Start {
+public class Distributor {
 
     // 开始类 单例模式
-    private final static Start startInstance = new Start();
+    private final static Distributor startInstance = new Distributor();
 
     // 返回单例
-    public static Start getInstance() {
+    public static Distributor getInstance() {
         return startInstance;
     }
 
     // 构造器私有，防止被new
-    private Start() {
+    private Distributor() {
 
     }
 

@@ -1,7 +1,7 @@
 package wang.reder.distributor.utils.redis;
 
 import redis.clients.jedis.Jedis;
-import wang.reder.distributor.Start;
+import wang.reder.distributor.Distributor;
 import wang.reder.distributor.interfaces.IJedisOperator;
 
 /**
@@ -32,7 +32,7 @@ public abstract class AbstractJedis {
         // 如果jedis操作类还没有初始化
         if (jedisOperator == null) {
             // 从开始类中获取Jedis操作类
-            jedisOperator = Start.getInstance().getJedisOperator();
+            jedisOperator = Distributor.getInstance().getJedisOperator();
         }
         return jedisOperator.getJedis();
     }

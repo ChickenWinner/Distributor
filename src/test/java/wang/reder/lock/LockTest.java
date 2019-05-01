@@ -1,13 +1,11 @@
 package wang.reder.lock;
 
 import org.junit.Test;
-import wang.reder.distributor.Start;
+import wang.reder.distributor.Distributor;
 import wang.reder.distributor.lock.IDtorLock;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import static java.lang.Thread.sleep;
 
@@ -21,22 +19,22 @@ public class LockTest {
     @Test
     public void redisLockTest() throws Exception {
         // 获得实例
-        Start start = Start.getInstance();
+        Distributor start = Distributor.getInstance();
         // 连接配置
         start.initJedisConfig("xxx", 6379, "");
 
         CountDownLatch downLatch = new CountDownLatch(20);
         // 获得锁
-        IDtorLock lock = Start.newRedisLock("myLock");
+        IDtorLock lock = Distributor.newRedisLock("myLock");
 
         for (int i = 0; i < 20; i++) {
             new Thread(() -> {
                 for (int j = 0; j < 10; j++) {
                     // 尝试加锁
-                    String kId = lock.tryLock(3000, TimeUnit.MILLISECONDS);
-                    if (null != kId) {
-                        System.out.println("lockId:" + kId);
-                        lock.unLock(kId);
+                    String lockId = lock.lock();
+                    if (null != lockId) {
+                        System.out.println("lockId:" + lockId);
+                        lock.unLock(lockId);
                     }
                 }
                 downLatch.countDown();
@@ -45,7 +43,6 @@ public class LockTest {
         }
         downLatch.await();
 
-
         start.destory();
     }
 
@@ -53,13 +50,13 @@ public class LockTest {
     @Test
     public void redisReentrantLockTest() throws Exception {
         // 获得实例
-        Start start = Start.getInstance();
+        Distributor start = Distributor.getInstance();
         // 连接配置
         start.initJedisConfig("xxx", 6379, "");
 
         CountDownLatch downLatch = new CountDownLatch(20);
         // 获得锁
-        IDtorLock lock = Start.newRedisReentrantLock("myLock");
+        IDtorLock lock = Distributor.newRedisReentrantLock("myLock");
 
         for (int i = 0; i < 20; i++) {
             new Thread(() -> {
@@ -79,4 +76,5 @@ public class LockTest {
 
         start.destory();
     }
+
 }
