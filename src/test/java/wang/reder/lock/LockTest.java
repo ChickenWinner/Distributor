@@ -23,10 +23,10 @@ public class LockTest {
         // 获得实例
         Start start = Start.getInstance();
         // 连接配置
-        start.initJedisConfig("192.168.75.130", 6379, "");
+        start.initJedisConfig("xxx", 6379, "");
 
         CountDownLatch downLatch = new CountDownLatch(20);
-        // 获得所
+        // 获得锁
         IDtorLock lock = Start.newRedisLock("myLock");
 
         for (int i = 0; i < 20; i++) {
@@ -44,5 +44,39 @@ public class LockTest {
             }).start();
         }
         downLatch.await();
+
+
+        start.destory();
     }
+
+
+    @Test
+    public void redisReentrantLockTest() throws Exception {
+        // 获得实例
+        Start start = Start.getInstance();
+        // 连接配置
+        start.initJedisConfig("xxx", 6379, "");
+
+        CountDownLatch downLatch = new CountDownLatch(20);
+        // 获得锁
+        IDtorLock lock = Start.newRedisReentrantLock("myLock");
+
+        for (int i = 0; i < 20; i++) {
+            new Thread(() -> {
+                for (int j = 0; j < 10; j++) {
+                    // 尝试加锁
+                    String kId = lock.lock();
+                    if (null != kId) {
+                        System.out.println("lockId:" + kId);
+                        lock.unLock(kId);
+                    }
+                }
+                downLatch.countDown();
+
+            }).start();
+        }
+        downLatch.await();
+
+        start.destory();
     }
+}

@@ -120,5 +120,8 @@ public class RedisLock extends AbstractJedis implements IDtorLock {
         }
     }
 
-
+    // 设置锁过期时间
+    public RedisLock(int lockTimeout) {
+        this.lockTimeout = lockTimeout;
+    }
 }

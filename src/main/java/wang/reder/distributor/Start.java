@@ -5,6 +5,7 @@ import redis.clients.jedis.JedisPoolConfig;
 import wang.reder.distributor.interfaces.IJedisOperator;
 import wang.reder.distributor.lock.IDtorLock;
 import wang.reder.distributor.lock.redis.RedisLock;
+import wang.reder.distributor.lock.redis.RedisReentrantLock;
 import wang.reder.distributor.utils.redis.JedisSimpleConfig;
 import wang.reder.distributor.utils.redis.JedisSimpleOperator;
 
@@ -86,6 +87,16 @@ public class Start {
     // 获取分布式锁，传入锁名，锁的过期时间
     public static IDtorLock newRedisLock(String lockName, int lockTimeout) {
         return new RedisLock(lockName, lockTimeout);
+    }
+
+    // 获取分布式锁，传入锁名，默认锁过期时间10s
+    public static IDtorLock newRedisReentrantLock(String lockName) {
+        return new RedisReentrantLock(lockName);
+    }
+
+    // 获取分布式锁，传入锁名，锁的过期时间
+    public static IDtorLock newRedisReentrantLock(String lockName, int lockTimeout) {
+        return new RedisReentrantLock(lockName, lockTimeout);
     }
 
 }
