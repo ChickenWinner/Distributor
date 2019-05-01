@@ -1,19 +1,17 @@
 package wang.reder.distributor.utils.redis;
 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 import wang.reder.distributor.Start;
-import wang.reder.distributor.interfaces.ICloseable;
 import wang.reder.distributor.interfaces.IJedisOperator;
 
 /**
- * <p>Jedis调用抽象类<p/>
+ * <p>Jedis调用抽象类, 对Jedis操作再进行一层封装<p/>
  *
  * @author Red
  * email: 1318944013@qq.com
  * date: 2019/4/30 21:40
  */
-public abstract class JedisBase {
+public abstract class AbstractJedis {
 
     // Jedis操作类
     private IJedisOperator jedisOperator;
@@ -29,8 +27,11 @@ public abstract class JedisBase {
         this.key = key;
     }
 
+    // 获得一个Jedis连接
     protected Jedis getJedis() {
+        // 如果jedis操作类还没有初始化
         if (jedisOperator == null) {
+            // 从开始类中获取Jedis操作类
             jedisOperator = Start.getInstance().getJedisOperator();
         }
         return jedisOperator.getJedis();

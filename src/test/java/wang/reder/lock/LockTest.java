@@ -20,18 +20,22 @@ public class LockTest {
 
     @Test
     public void redisLockTest() throws Exception {
+        // 获得实例
         Start start = Start.getInstance();
+        // 连接配置
         start.initJedisConfig("192.168.75.130", 6379, "");
-        CountDownLatch downLatch = new CountDownLatch(20);
 
+        CountDownLatch downLatch = new CountDownLatch(20);
+        // 获得所
         IDtorLock lock = Start.newRedisLock("myLock");
 
         for (int i = 0; i < 20; i++) {
             new Thread(() -> {
                 for (int j = 0; j < 10; j++) {
+                    // 尝试加锁
                     String kId = lock.tryLock(3000, TimeUnit.MILLISECONDS);
                     if (null != kId) {
-                        System.out.println("kId:" + kId);
+                        System.out.println("lockId:" + kId);
                         lock.unLock(kId);
                     }
                 }

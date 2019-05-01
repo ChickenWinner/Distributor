@@ -24,10 +24,10 @@ public class JedisSimpleOperator implements IJedisOperator {
     // Jedis连接池配置
     private JedisPoolConfig jedisPoolConfig;
 
-    // 最简单的初始化
+    // 根据参数情况进行不同的初始化操作
     @Override
     public void init() {
-        // 如果传入了连接池
+        // 如果传入了连接池，直接使用即可
         if (jedisPool != null) {
             return ;
         } else if (jedisPoolConfig != null) {
@@ -38,7 +38,7 @@ public class JedisSimpleOperator implements IJedisOperator {
             jedisPoolConfig.setMaxIdle(10);
             jedisPoolConfig.setMaxWaitMillis(1000 * 10);
         }
-        // 初始化线程池
+        // 初始化连接池
         jedisPool = new JedisPool(jedisPoolConfig, jedisConfig.getHost(), jedisConfig.getPort(), 8000);
     }
 
@@ -47,8 +47,8 @@ public class JedisSimpleOperator implements IJedisOperator {
     public Jedis getJedis() {
         // 从连接池获得一个连接
         Jedis jedis = jedisPool.getResource();
-        // 当配置不为空时，获得配置中的密码
         String auth = null;
+        // 检查配置是否为空
         if(jedisConfig != null) {
             auth = jedisConfig.getAuth();
         }
