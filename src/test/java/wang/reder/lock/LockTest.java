@@ -3,11 +3,7 @@ package wang.reder.lock;
 import org.junit.Test;
 import wang.reder.distributor.Distributor;
 import wang.reder.distributor.lock.IDtorLock;
-
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
-import static java.lang.Thread.sleep;
 
 /**
  * @author Red
