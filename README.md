@@ -46,12 +46,13 @@ Lock的使用
     IDtorLock lock = Distributor.newRedisLock("myLock", 2000);
     
     /* 加锁方式有3种 */
+    
     // 1. lock()方法, 直到获取锁成功为止
     String lockId = lock.lock(); 
     // 2. tryLock()方法，尝试加锁，2s内未成功返回
     String lockId = lock.tryLock(); 
     // 3. tryLock(long tryLockTime, TimeUnit unit)，尝试加锁，指定尝试时间
-    String lockId = lock.tryLock(2000，TimeUnit.MILLISECONDS);
+    String lockId = lock.tryLock(2000, TimeUnit.MILLISECONDS);
     
     // ----> 业务处理
     
@@ -59,7 +60,7 @@ Lock的使用
     lock.unLock(lockId);
 ```
 
-### 性能测试 (test)
+### 测试 (test)
 测试代码可以在测试类中看到
 
 Lock：开启20个线程，每个线程获取10次锁
