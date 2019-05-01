@@ -4,6 +4,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import wang.reder.distributor.interfaces.IJedisOperator;
 import wang.reder.distributor.lock.IDtorLock;
+import wang.reder.distributor.lock.redis.RedisLock;
 import wang.reder.distributor.utils.redis.JedisSimpleConfig;
 import wang.reder.distributor.utils.redis.JedisSimpleOperator;
 
@@ -68,12 +69,12 @@ public class Start {
         return this.jedisOperator;
     }
 
-    public static IDtorLock newRedisLock(String name) {
-        return null;
+    public static IDtorLock newRedisLock(String lockName) {
+        return new RedisLock(lockName);
     }
 
-    public static IDtorLock newRedisLock(String name, int timeOut) {
-        return null;
+    public static IDtorLock newRedisLock(String lockName, int lockTimeout) {
+        return new RedisLock(lockName, lockTimeout);
     }
 
 }

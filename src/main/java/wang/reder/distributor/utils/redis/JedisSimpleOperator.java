@@ -34,6 +34,9 @@ public class JedisSimpleOperator implements IJedisOperator {
             // do nothing
         } else {
             jedisPoolConfig = new JedisPoolConfig();
+            jedisPoolConfig.setMaxTotal(500);
+            jedisPoolConfig.setMaxIdle(10);
+            jedisPoolConfig.setMaxWaitMillis(1000 * 10);
         }
         // 初始化线程池
         jedisPool = new JedisPool(jedisPoolConfig, jedisConfig.getHost(), jedisConfig.getPort(), 8000);
@@ -70,6 +73,10 @@ public class JedisSimpleOperator implements IJedisOperator {
 
     public void setJedisPool(JedisPool jedisPool) {
         this.jedisPool = jedisPool;
+    }
+
+    public JedisPool getJedisPool() {
+        return jedisPool;
     }
 
     public void setJedisPoolConfig(JedisPoolConfig jedisPoolConfig) {

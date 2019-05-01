@@ -1,6 +1,7 @@
 package wang.reder.distributor.interfaces;
 
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 /**
  * <p>Jedis操作接口<p/>
