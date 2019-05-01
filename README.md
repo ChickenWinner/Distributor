@@ -64,7 +64,7 @@ Lock的使用
 测试代码可以在测试类中看到
 
 Lock：开启20个线程，每个线程获取10次锁
-
+![Lock测试图](img/Lock测试图.png "屏幕截图.png")
 
 ### 友情链接 (friends)
  + [水不要鱼 & GitHub](https://github.com/FishGoddess)
