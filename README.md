@@ -10,8 +10,9 @@ Distributor基于Redis实现常用的分布式组件，简单、可靠、开箱�
 ### 实现功能 (what)
  1. Lock( 基于Redis的分布式锁，支持可重入锁 )
  
- 2. Sequence( 序列生成器，雪花算法、Redis等 )
-
+ 2. Sequence( 序列生成器，基于雪花算法、Redis )
+ 
+ 3. 开发中
 
 ###  如何使用 (how)
 初始化Distributor 
@@ -60,11 +61,39 @@ Lock的使用
     lock.unLock(lockId);
 ```
 
+生成全局唯一序列
+```java
+    /* 如果使用雪花序列生成器的话，不需要初始化Redis
+       直接new出来就可以用 也支持自定义工作ID和数据中心ID 
+     */
+    // 初始化方法1 
+    ISequence sequence = Distributor.newSnowflakeSeq();
+    // 初始化方法2 
+    ISequence newSnowflakeSeq(long workerId, long datacenterId);
+    // 直接获取id即可
+    long id = sequence.nextId();
+    
+    /* 如果使用Redis序列生成器的话，那么要先初始化Distributor 
+       可以参照上面初始化的例子，然后new出来，就可以使用了
+     */
+    // 初始化方法1 只指定key
+    ISequence sequence = Distributor.newRedisSeq("seq");
+    // 初始化方法2 指定key 单元长度 开始位置
+    ISequence sequence = 
+        Distributor.newRedisSeq(String key, int step, long stepStart);
+```
+
 ### 测试 (test)
 测试代码可以在测试类中看到(src/test)
 
 - Lock：开启20个线程，每个线程获取10次锁，运行正常无死锁
 ![Lock测试图](./img/Lock测试图.png "屏幕截图.png")
+
+- Sequence: 
+1. 利用雪花算法生成序列，10W个大概需要0.9秒
+![雪花算法测试图腾](./img/Snowflake算法测试图.png "屏幕截图.png")
+2. 利用Redis生成序列，连接远程Redis服务，生成10W个序列大概需要1.1秒
+![Redis序列测试图腾](./img/Redis序列测试图.png "屏幕截图.png")
 
 ### 友情链接 (friends)
  + [水不要鱼 & 码云](https://gitee.com/FishGoddess)

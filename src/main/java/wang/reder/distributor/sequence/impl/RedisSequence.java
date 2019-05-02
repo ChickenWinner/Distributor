@@ -60,6 +60,7 @@ public class RedisSequence extends AbstractJedis implements ISequence {
         String key = getKey();
 
         // 双重检测，如果单元不存在，获取一个
+        // 只会发生在第一次请求序列，或者重启服务
         if (sequenceUnit == null) {
             lock.lock();
             try {
@@ -73,10 +74,12 @@ public class RedisSequence extends AbstractJedis implements ISequence {
 
         // 当value值为-1时，表明区间的序列号已经分配完，需要重新获取单元
         long seq = sequenceUnit.getAndIncrement();
+        // 单元分配完毕，重新申请
         if (seq == -1) {
             lock.lock();
             try {
-                for ( ; ; ) {
+                // 循环获取，直到成功
+                while (true){
                     // 重新分配单元
                     if (sequenceUnit.isEnd()) {
                         sequenceUnit = nextUnit(getKey());
@@ -94,14 +97,16 @@ public class RedisSequence extends AbstractJedis implements ISequence {
         if (seq < 0) {
             throw new GetSeqException("获取序列异常：" + seq);
         }
-
         return seq;
     }
 
+    // 分配单元区间
     private SequenceUnit nextUnit(String key) {
         Jedis jedis = null;
         try {
+            // 获得连接
             jedis = getJedis();
+            // 第一次要设置Key
             if (!isKeyExist) {
                 Boolean isExists = jedis.exists(key);
                 if (!isExists) {
@@ -110,10 +115,13 @@ public class RedisSequence extends AbstractJedis implements ISequence {
                 }
                 isKeyExist = true;
             }
+            // 一次性取走一个单元区间，保证一个区间内的序列分配给一个服务器使用
             Long end = getJedis().incrBy(key, step);
+            // 计算出区间开始位置
             Long begin = end - step + 1;
             return new SequenceUnit(begin, end);
         } finally {
+            if(jedis != null)
             jedis.close();
         }
     }

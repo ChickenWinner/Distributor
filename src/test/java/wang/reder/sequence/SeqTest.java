@@ -20,7 +20,7 @@ public class SeqTest {
         System.out.println(System.currentTimeMillis());
         long startTime = System.nanoTime();
         // 生成五万个ID
-        for (int i = 0; i < 50000; i++) {
+        for (int i = 0; i < 100000; i++) {
             long id = sequence.nextId();
             System.out.println(id);
         }
@@ -31,38 +31,16 @@ public class SeqTest {
     public void redisSeqTest() throws InterruptedException {
         Distributor distributor = Distributor.getInstance();
         // 连接配置
-        distributor.initJedisConfig("192.168.75.131", 6379, "");
+        distributor.initJedisConfig("192.168.75.132", 6379, "");
 
-        ISequence sequence = Distributor.newRedisSeq("seq", 2000, 1);
+        ISequence sequence = Distributor.newRedisSeq("seq", 1000, 1);
 
         System.out.println(System.currentTimeMillis());
         long startTime = System.nanoTime();
-        CountDownLatch countDownLatch = new CountDownLatch(3);
-        new Thread(() -> {
-            for (int i = 0; i < 2000; i++) {
-                long id = sequence.nextId();
-                System.out.println(id);
-            }
-            countDownLatch.countDown();
-        }).start();
-
-        new Thread(() -> {
-            for (int i = 0; i < 2000; i++) {
-                long id = sequence.nextId();
-                System.out.println(id);
-            }
-            countDownLatch.countDown();
-        }).start();
-
-        new Thread(() -> {
-            for (int i = 0; i < 2000; i++) {
-                long id = sequence.nextId();
-                System.out.println(id);
-            }
-            countDownLatch.countDown();
-        }).start();
-
-        countDownLatch.await();
+        for (int i = 0; i < 100000; i++) {
+            long id = sequence.nextId();
+            System.out.println(id);
+        }
 
         System.out.println((System.nanoTime() - startTime) / 1000000 + "ms");
     }
