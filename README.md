@@ -10,7 +10,7 @@ Distributor基于Redis实现常用的分布式组件，简单、可靠、开箱�
 ### 实现功能 (what)
  1. Lock( 基于Redis的分布式锁，支持可重入锁 )
  
- 2. 开发中
+ 2. Sequence( 序列生成器，雪花算法、Redis等 )
 
 
 ###  如何使用 (how)
