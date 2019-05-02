@@ -67,8 +67,8 @@ Lock的使用
 ![Lock测试图](./img/Lock测试图.png "屏幕截图.png")
 
 ### 友情链接 (friends)
- + [水不要鱼 & GitHub](https://github.com/FishGoddess)
+ + [水不要鱼 & 码云](https://gitee.com/FishGoddess)
 
- + [Mackyhuang & GitHub](https://github.com/Mackyhuang)
+ + [Mackyhuang & 码云](https://gitee.com/Mackyhuang)
 
- + [MaDao & GitHub](https://github.com/Madaovo)
+ + [MaDao & 码云](https://gitee.com/mdaovo)

@@ -6,6 +6,9 @@ import wang.reder.distributor.interfaces.IJedisOperator;
 import wang.reder.distributor.lock.IDtorLock;
 import wang.reder.distributor.lock.redis.RedisLock;
 import wang.reder.distributor.lock.redis.RedisReentrantLock;
+import wang.reder.distributor.sequence.ISequence;
+import wang.reder.distributor.sequence.impl.RedisSequence;
+import wang.reder.distributor.sequence.impl.SnowflakeSequence;
 import wang.reder.distributor.utils.redis.JedisSimpleConfig;
 import wang.reder.distributor.utils.redis.JedisSimpleOperator;
 
@@ -30,6 +33,7 @@ public class Distributor {
 
     }
 
+    // jedis操作类，用于Jedis操作
     private IJedisOperator jedisOperator;
 
     // ----> Jedis直接连接初始化
@@ -72,7 +76,7 @@ public class Distributor {
         return this.jedisOperator;
     }
 
-    // 释放资源
+    // 销毁JedisPool
     public  void destory() {
         this.jedisOperator.destroy();
     }
@@ -98,5 +102,28 @@ public class Distributor {
     public static IDtorLock newRedisReentrantLock(String lockName, int lockTimeout) {
         return new RedisReentrantLock(lockName, lockTimeout);
     }
+
+    // ----> Sequence
+
+    // 得到雪花序列生成器 可以指定工作ID和数据中心ID
+    public static ISequence newSnowflakeSeq(long workerId, long datacenterId) {
+        return new SnowflakeSequence(workerId, datacenterId);
+    }
+
+    // 使用默认的工作ID和数据中心ID
+    public static ISequence newSnowflakeSeq() {
+        return new SnowflakeSequence(-1, -1);
+    }
+
+    // 指定key，单元长度和开始位置默认
+    public static ISequence newRedisSeq(String key) {
+        return new RedisSequence(key, -1, -1);
+    }
+
+    // 指定key 单元长度 开始位置
+    public static ISequence newRedisSeq(String key, int step, long stepStart) {
+        return new RedisSequence(key, step, stepStart);
+    }
+
 
 }

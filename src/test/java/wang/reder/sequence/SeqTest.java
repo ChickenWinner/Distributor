@@ -1,8 +1,10 @@
 package wang.reder.sequence;
 
 import org.junit.Test;
+import wang.reder.distributor.Distributor;
 import wang.reder.distributor.sequence.ISequence;
-import wang.reder.distributor.sequence.factory.SnowflakeFactory;
+
+import java.util.concurrent.CountDownLatch;
 
 /**
  * @author Red
@@ -12,14 +14,56 @@ import wang.reder.distributor.sequence.factory.SnowflakeFactory;
 public class SeqTest {
 
     @Test
-    public void SnowflakeSeqTest() {
+    public void snowflakeSeqTest() {
+        // 获得雪花序列生成器
+        ISequence sequence = Distributor.newSnowflakeSeq(21, 21);
         System.out.println(System.currentTimeMillis());
         long startTime = System.nanoTime();
-        ISequence sequence = SnowflakeFactory.instance().param(1,2).produce();
+        // 生成五万个ID
         for (int i = 0; i < 50000; i++) {
             long id = sequence.nextId();
             System.out.println(id);
         }
+        System.out.println((System.nanoTime() - startTime) / 1000000 + "ms");
+    }
+
+    @Test
+    public void redisSeqTest() throws InterruptedException {
+        Distributor distributor = Distributor.getInstance();
+        // 连接配置
+        distributor.initJedisConfig("192.168.75.131", 6379, "");
+
+        ISequence sequence = Distributor.newRedisSeq("seq", 2000, 1);
+
+        System.out.println(System.currentTimeMillis());
+        long startTime = System.nanoTime();
+        CountDownLatch countDownLatch = new CountDownLatch(3);
+        new Thread(() -> {
+            for (int i = 0; i < 2000; i++) {
+                long id = sequence.nextId();
+                System.out.println(id);
+            }
+            countDownLatch.countDown();
+        }).start();
+
+        new Thread(() -> {
+            for (int i = 0; i < 2000; i++) {
+                long id = sequence.nextId();
+                System.out.println(id);
+            }
+            countDownLatch.countDown();
+        }).start();
+
+        new Thread(() -> {
+            for (int i = 0; i < 2000; i++) {
+                long id = sequence.nextId();
+                System.out.println(id);
+            }
+            countDownLatch.countDown();
+        }).start();
+
+        countDownLatch.await();
+
         System.out.println((System.nanoTime() - startTime) / 1000000 + "ms");
     }
 }
