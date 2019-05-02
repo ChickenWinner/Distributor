@@ -22,19 +22,19 @@ Distributor基于Redis实现常用的分布式组件，简单、可靠、开箱�
     /* 连接配置
      可以根据实际情况选择不同的配置方式 */
     
-    // 配置1
+    // 配置1 主机 + 端口 + 密码（如果有） + 默认连接池配置
     distributor.initJedisConfig("xxx", 6379, "");
     
-    // 配置2
+    // 配置2 主机 + 端口 + 密码 + 自定义连接池配置
     distributor.initJedisConfig(String host, int port, String auth,JedisPoolConfig jedisPoolConfig)
     
-    // 配置3
+    // 配置3 自定义连接池
     distributor.initJedisConfig(JedisPool jedisPool)
 ```
 
 回收Distributor 
 ```java
-    // 回收资源
+    // 回收资源，在结束使用时调用
     distributor.destory();
 ```
 
@@ -61,9 +61,9 @@ Lock的使用
 ```
 
 ### 测试 (test)
-测试代码可以在测试类中看到
+测试代码可以在测试类中看到(src/test)
 
-Lock：开启20个线程，每个线程获取10次锁
+- Lock：开启20个线程，每个线程获取10次锁，运行正常无死锁
 ![Lock测试图](./img/Lock测试图.png "屏幕截图.png")
 
 ### 友情链接 (friends)
