@@ -20,7 +20,7 @@ Distributor基于Redis实现常用的分布式组件，简单、可靠、开箱�
     // 获得实例
     Distributor  distributor  = Distributor.getInstance();
 
-    /* 连接配置
+    /* 连接配置(使用雪花算法生成序列可以不配置)
      可以根据实际情况选择不同的配置方式 */
     
     // 配置1 主机 + 端口 + 密码（如果有） + 默认连接池配置
@@ -69,7 +69,7 @@ Lock的使用
     // 初始化方法1 
     ISequence sequence = Distributor.newSnowflakeSeq();
     // 初始化方法2 
-    ISequence newSnowflakeSeq(long workerId, long datacenterId);
+    ISequence sequence = newSnowflakeSeq(long workerId, long datacenterId);
     // 直接获取id即可
     long id = sequence.nextId();
     
@@ -86,10 +86,10 @@ Lock的使用
 ### 测试 (test)
 测试代码可以在测试类中看到(src/test)
 
-- Lock：开启20个线程，每个线程获取10次锁，运行正常无死锁
+- #### Lock：开启20个线程，每个线程获取10次锁，运行正常无死锁
 ![Lock测试图](./img/Lock测试图.png "屏幕截图.png")
 
-- Sequence: 
+- #### Sequence: 
 1. 利用雪花算法生成序列，10W个大概需要0.9秒
 ![雪花算法测试图腾](./img/Snowflake算法测试图.png "屏幕截图.png")
 2. 利用Redis生成序列，连接远程Redis服务，生成10W个序列大概需要1.1秒
