@@ -13,6 +13,8 @@ Distributor基于Redis实现常用的分布式组件，简单、可靠、开箱�
  2. Sequence( 序列生成器，基于雪花算法、Redis )
  
  3. Limit( 限流工具 )
+ 
+ 4. 敬请期待
 
 ###  如何使用 (how)
 初始化Distributor 
