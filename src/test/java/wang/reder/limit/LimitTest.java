@@ -17,7 +17,7 @@ public class LimitTest {
     public void RedisLimitTest() throws InterruptedException {
         Distributor distributor = Distributor.getInstance();
         // 连接配置
-        distributor.initJedisConfig("192.168.75.132", 6379, "");
+        distributor.initJedisConfig("xxx", 6379, "");
 
         ILimit limit = Distributor.newAccessLimit();
 

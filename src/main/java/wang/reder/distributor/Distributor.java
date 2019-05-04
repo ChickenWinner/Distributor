@@ -15,7 +15,7 @@ import wang.reder.distributor.utils.redis.JedisSimpleConfig;
 import wang.reder.distributor.utils.redis.JedisSimpleOperator;
 
 /**
- * <p>开始类 初始化系统配置<p/>
+ * <p>开始类 初始化系统配置，调度系统功能<p/>
  * @author Red
  * email: 1318944013@qq.com
  * date: 2019/4/30 20:50

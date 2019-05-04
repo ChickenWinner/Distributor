@@ -12,7 +12,7 @@ Distributor基于Redis实现常用的分布式组件，简单、可靠、开箱�
  
  2. Sequence( 序列生成器，基于雪花算法、Redis )
  
- 3. 开发中
+ 3. Limit( 限流工具 )
 
 ###  如何使用 (how)
 初始化Distributor 
@@ -69,7 +69,7 @@ Lock的使用
     // 初始化方法1 
     ISequence sequence = Distributor.newSnowflakeSeq();
     // 初始化方法2 
-    ISequence sequence = newSnowflakeSeq(long workerId, long datacenterId);
+    ISequence sequence = Distributor.newSnowflakeSeq(long workerId, long datacenterId);
     // 直接获取id即可
     long id = sequence.nextId();
     
@@ -83,6 +83,21 @@ Lock的使用
         Distributor.newRedisSeq(String key, int step, long stepStart);
 ```
 
+Limit限流
+```java
+    /* 由于使用了Redis，请参考初始化部分获得实例，
+       并且配置Redis连接
+    */
+    
+    // 获得限流器
+    ILimit limit = Distributor.newAccessLimit();
+    
+    // 进行限流，如果未超过流量限制返回true，否则返回false
+    // 3个参数的意义：Redis的key，单位时间内执行次数，单位时间
+    limit.accessLimit("limit", 2, 1)
+    
+```
+
 ### 测试 (test)
 测试代码可以在测试类中看到(src/test)
 
@@ -90,9 +105,9 @@ Lock的使用
 ![Lock测试图](./img/Lock测试图.png "屏幕截图.png")
 
 - #### Sequence: 
-1. 利用雪花算法生成序列，10W个大概需要0.9秒
+##### 1. 利用雪花算法生成序列，10W个大概需要0.9秒
 ![雪花算法测试图腾](./img/Snowflake算法测试图.png "屏幕截图.png")
-2. 利用Redis生成序列，连接远程Redis服务，生成10W个序列大概需要1.1秒
+##### 2. 利用Redis生成序列，连接远程Redis服务，生成10W个序列大概需要1.1秒
 ![Redis序列测试图腾](./img/Redis序列测试图.png "屏幕截图.png")
 
 ### 友情链接 (friends)
