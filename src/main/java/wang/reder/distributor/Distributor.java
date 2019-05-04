@@ -3,6 +3,8 @@ package wang.reder.distributor;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import wang.reder.distributor.interfaces.IJedisOperator;
+import wang.reder.distributor.limit.ILimit;
+import wang.reder.distributor.limit.impl.RedisLimit;
 import wang.reder.distributor.lock.IDtorLock;
 import wang.reder.distributor.lock.redis.RedisLock;
 import wang.reder.distributor.lock.redis.RedisReentrantLock;
@@ -125,5 +127,9 @@ public class Distributor {
         return new RedisSequence(key, step, stepStart);
     }
 
+    // ----> Limit
+    public static ILimit newAccessLimit() {
+        return new RedisLimit();
+    }
 
 }
