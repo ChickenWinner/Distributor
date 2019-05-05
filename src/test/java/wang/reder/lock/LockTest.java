@@ -23,6 +23,8 @@ public class LockTest {
         // 获得锁
         IDtorLock lock = Distributor.newRedisLock("myLock");
 
+        IDtorLock lock1 = Distributor.newRedisReentrantLock("mylock");
+
         for (int i = 0; i < 20; i++) {
             new Thread(() -> {
                 for (int j = 0; j < 10; j++) {

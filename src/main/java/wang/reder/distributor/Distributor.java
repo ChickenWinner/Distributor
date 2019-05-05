@@ -2,6 +2,8 @@ package wang.reder.distributor;
 
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+import wang.reder.distributor.cache.ICacheClient;
+import wang.reder.distributor.cache.Impl.RedisClient;
 import wang.reder.distributor.interfaces.IJedisOperator;
 import wang.reder.distributor.limit.ILimit;
 import wang.reder.distributor.limit.impl.RedisLimit;
@@ -132,4 +134,8 @@ public class Distributor {
         return new RedisLimit();
     }
 
+    // ----> Cache
+    public static ICacheClient newCacheClient() {
+        return new RedisClient();
+    }
 }
