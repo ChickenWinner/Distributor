@@ -7,12 +7,13 @@ import wang.reder.distributor.cache.Impl.RedisClient;
 import wang.reder.distributor.interfaces.IJedisOperator;
 import wang.reder.distributor.limit.ILimit;
 import wang.reder.distributor.limit.impl.RedisLimit;
-import wang.reder.distributor.lock.IDtorLock;
+import wang.reder.distributor.lock.ILock;
 import wang.reder.distributor.lock.redis.RedisLock;
 import wang.reder.distributor.lock.redis.RedisReentrantLock;
 import wang.reder.distributor.sequence.ISequence;
 import wang.reder.distributor.sequence.impl.RedisSequence;
 import wang.reder.distributor.sequence.impl.SnowflakeSequence;
+import wang.reder.distributor.utils.redis.JedisOperatorInit;
 
 /**
  * <p>门面模式，调度系统功能<p/>
@@ -29,8 +30,8 @@ public class Distributor {
     // jedis操作类，用于Jedis操作
     private IJedisOperator jedisOperator;
 
-    // Jedis初始化类
-    private JedisInit jedisInit = new JedisInit();
+    // JedisOperator初始化类
+    private JedisOperatorInit jedisInit = new JedisOperatorInit();
 
     // 返回单例
     public static Distributor getInstance() {
@@ -92,22 +93,22 @@ public class Distributor {
     // ----> RedisLock
 
     // 获取分布式锁，传入锁名，默认锁过期时间10s
-    public static IDtorLock newRedisLock(String lockName) {
+    public static ILock newRedisLock(String lockName) {
         return new RedisLock(lockName);
     }
 
     // 获取分布式锁，传入锁名，锁的过期时间
-    public static IDtorLock newRedisLock(String lockName, int lockTimeout) {
+    public static ILock newRedisLock(String lockName, int lockTimeout) {
         return new RedisLock(lockName, lockTimeout);
     }
 
     // 获取分布式锁，传入锁名，默认锁过期时间10s
-    public static IDtorLock newRedisReentrantLock(String lockName) {
+    public static ILock newRedisReentrantLock(String lockName) {
         return new RedisReentrantLock(lockName);
     }
 
     // 获取分布式锁，传入锁名，锁的过期时间
-    public static IDtorLock newRedisReentrantLock(String lockName, int lockTimeout) {
+    public static ILock newRedisReentrantLock(String lockName, int lockTimeout) {
         return new RedisReentrantLock(lockName, lockTimeout);
     }
 

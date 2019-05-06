@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
  * email: 1318944013@qq.com
  * date: 2019/4/30 19:57
  */
-public interface IDtorLock {
+public interface ILock {
 
     /**
      * 获取锁直到成功

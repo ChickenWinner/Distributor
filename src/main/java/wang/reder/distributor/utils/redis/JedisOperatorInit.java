@@ -1,4 +1,4 @@
-package wang.reder.distributor;
+package wang.reder.distributor.utils.redis;
 
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -13,7 +13,7 @@ import wang.reder.distributor.utils.redis.JedisSimpleOperator;
  * email: 1318944013@qq.com
  * date: 2019/5/6 11:51
  */
-public class JedisInit {
+public class JedisOperatorInit {
 
 
     // 情况1：带连接池配置的初始化

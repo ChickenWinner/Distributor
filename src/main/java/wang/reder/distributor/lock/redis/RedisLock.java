@@ -1,7 +1,7 @@
 package wang.reder.distributor.lock.redis;
 
 import redis.clients.jedis.Jedis;
-import wang.reder.distributor.lock.IDtorLock;
+import wang.reder.distributor.lock.ILock;
 import wang.reder.distributor.utils.IdUtils;
 import wang.reder.distributor.utils.redis.AbstractJedis;
 
@@ -16,7 +16,7 @@ import java.util.concurrent.locks.LockSupport;
  * email: 1318944013@qq.com
  * date: 2019/5/1 11:03
  */
-public class RedisLock extends AbstractJedis implements IDtorLock {
+public class RedisLock extends AbstractJedis implements ILock {
 
     // Redis命令常用字符串
     private static final String LOCK_SUCCESS = "OK";
@@ -96,8 +96,8 @@ public class RedisLock extends AbstractJedis implements IDtorLock {
             // 加锁成功返回value值，用于解锁
             return LOCK_SUCCESS.equals(result) ? lockId : null;
         } finally {
-             //关闭连接
-             jedis.close();
+            //关闭连接
+            jedis.close();
         }
     }
 
@@ -116,7 +116,9 @@ public class RedisLock extends AbstractJedis implements IDtorLock {
                     Collections.singletonList(getKey()), Collections.singletonList(lockId));
         } finally {
             // 关闭资源
-            jedis.close();
+            if (jedis != null) {
+                jedis.close();
+            }
         }
     }
 

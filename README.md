@@ -48,9 +48,9 @@ Distributor基于Redis实现常用的分布式组件，简单、可靠、开箱�
 Lock的使用
 ```java
     // 获得锁对象, 只指定了锁名
-    IDtorLock lock = Distributor.newRedisLock("myLock");
+    ILock lock = Distributor.newRedisLock("myLock");
     // 还可以手动指定锁的过期时间
-    IDtorLock lock = Distributor.newRedisLock("myLock", 2000);
+    ILock lock = Distributor.newRedisLock("myLock", 2000);
     
     /* 加锁方式有3种 */
     
@@ -111,10 +111,10 @@ Limit限流
 ![Lock测试图](./img/Lock测试图.png "屏幕截图.png")
 
 - #### Sequence: 
-##### 1. 利用雪花算法生成序列，10W个大概需要0.9秒
-![雪花算法测试图腾](./img/Snowflake算法测试图.png "屏幕截图.png")
-##### 2. 利用Redis生成序列，连接远程Redis服务，生成10W个序列大概需要1.1秒
-![Redis序列测试图腾](./img/Redis序列测试图.png "屏幕截图.png")
+##### 1. 利用雪花算法生成序列，50W个序列大概需要1.2秒
+![雪花算法测试图](./img/Snowflake算法测试图.png "屏幕截图.png")
+##### 2. 利用Redis生成序列(区间单元设置为5000)，连接远程Redis服务，生成50W个序列大概需要0.2秒
+![Redis序列测试图](./img/Redis序列测试图.png "屏幕截图.png")
 
 ### 友情链接 (friends)
  + [水不要鱼 & 码云](https://gitee.com/FishGoddess)

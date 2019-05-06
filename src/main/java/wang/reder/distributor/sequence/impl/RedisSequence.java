@@ -39,10 +39,10 @@ public class RedisSequence extends AbstractJedis implements ISequence {
     // 构造函数
     public RedisSequence(String key, int step, long stepStart) {
         // 如果输入负数，则使用默认设置
-        if(step <= 0) {
+        if (step <= 0) {
             step = DEFAULT_UNIT_STEP;
         }
-        if(stepStart < 0) {
+        if (stepStart < 0) {
             stepStart = DEFAULT_UNIT_START;
         }
         // 设置Key
@@ -79,7 +79,7 @@ public class RedisSequence extends AbstractJedis implements ISequence {
             lock.lock();
             try {
                 // 循环获取，直到成功
-                while (true){
+                while (true) {
                     // 重新分配单元
                     if (sequenceUnit.isEnd()) {
                         sequenceUnit = nextUnit(getKey());
@@ -121,8 +121,9 @@ public class RedisSequence extends AbstractJedis implements ISequence {
             Long begin = end - step + 1;
             return new SequenceUnit(begin, end);
         } finally {
-            if(jedis != null)
-            jedis.close();
+            if (jedis != null) {
+                jedis.close();
+            }
         }
     }
 

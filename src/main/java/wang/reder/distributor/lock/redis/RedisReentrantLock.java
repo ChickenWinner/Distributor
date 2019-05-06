@@ -1,7 +1,7 @@
 package wang.reder.distributor.lock.redis;
 
 
-import wang.reder.distributor.lock.IDtorLock;
+import wang.reder.distributor.lock.ILock;
 import wang.reder.distributor.utils.redis.AbstractJedis;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * email: 1318944013@qq.com
  * date: 2019/5/1 19:00
  */
-public class RedisReentrantLock extends AbstractJedis implements IDtorLock {
+public class RedisReentrantLock extends AbstractJedis implements ILock {
 
     // 存储每个线程获取锁的信息
     private final ConcurrentHashMap<Thread, LockData> threadData = new ConcurrentHashMap<>();
