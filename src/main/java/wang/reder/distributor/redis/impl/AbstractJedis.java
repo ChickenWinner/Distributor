@@ -1,8 +1,8 @@
-package wang.reder.distributor.utils.redis;
+package wang.reder.distributor.redis.impl;
 
 import redis.clients.jedis.Jedis;
 import wang.reder.distributor.Distributor;
-import wang.reder.distributor.interfaces.IJedisOperator;
+import wang.reder.distributor.redis.IJedisOperator;
 
 /**
  * <p>Jedis调用抽象类, 对Jedis操作再进行一层封装<p/>

@@ -1,10 +1,8 @@
-package wang.reder.distributor.utils.redis;
+package wang.reder.distributor.redis.impl;
 
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
-import wang.reder.distributor.interfaces.IJedisOperator;
-import wang.reder.distributor.utils.redis.JedisSimpleConfig;
-import wang.reder.distributor.utils.redis.JedisSimpleOperator;
+import wang.reder.distributor.redis.IJedisOperator;
 
 /**
  * <p>Jedis系统配置<p/>
@@ -18,7 +16,7 @@ public class JedisOperatorInit {
 
     // 情况1：带连接池配置的初始化
     public IJedisOperator initJedisConfig(String host, int port, String auth,
-                                JedisPoolConfig jedisPoolConfig) {
+                                          JedisPoolConfig jedisPoolConfig) {
         // 设置Jedis连接属性
         // 主机 端口 密码
         JedisSimpleConfig config = new JedisSimpleConfig();

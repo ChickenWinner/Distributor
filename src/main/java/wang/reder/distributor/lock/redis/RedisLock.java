@@ -3,7 +3,7 @@ package wang.reder.distributor.lock.redis;
 import redis.clients.jedis.Jedis;
 import wang.reder.distributor.lock.ILock;
 import wang.reder.distributor.utils.IdUtils;
-import wang.reder.distributor.utils.redis.AbstractJedis;
+import wang.reder.distributor.redis.impl.AbstractJedis;
 
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;

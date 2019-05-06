@@ -3,7 +3,7 @@ package wang.reder.distributor.sequence.impl;
 import redis.clients.jedis.Jedis;
 import wang.reder.distributor.exception.GetSeqException;
 import wang.reder.distributor.sequence.ISequence;
-import wang.reder.distributor.utils.redis.AbstractJedis;
+import wang.reder.distributor.redis.impl.AbstractJedis;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;

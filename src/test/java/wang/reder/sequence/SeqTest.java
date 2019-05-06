@@ -4,7 +4,6 @@ import org.junit.Test;
 import wang.reder.distributor.Distributor;
 import wang.reder.distributor.sequence.ISequence;
 
-import java.util.concurrent.CountDownLatch;
 
 /**
  * @author Red
@@ -30,7 +29,7 @@ public class SeqTest {
     public void redisSeqTest() throws InterruptedException {
         Distributor distributor = Distributor.getInstance();
         // 连接配置
-        distributor.initJedisConfig("192.168.75.133", 6379, "");
+        distributor.initJedisConfig("xxx", 6379, "");
 
         ISequence sequence = Distributor.newRedisSeq("seq", 5000, 1);
 

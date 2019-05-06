@@ -32,7 +32,7 @@ public class CacheTest {
 //        list.add("key");
 
         Distributor distributor = Distributor.getInstance();
-        distributor.initJedisConfig("192.168.75.132", 6379, "");
+        distributor.initJedisConfig("xxx", 6379, "");
 
         ICacheClient cacheClient = Distributor.newCacheClient();
         cacheClient.set("p", -1, p);

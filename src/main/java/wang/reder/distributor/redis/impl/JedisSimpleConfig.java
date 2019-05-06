@@ -1,4 +1,4 @@
-package wang.reder.distributor.utils.redis;
+package wang.reder.distributor.redis.impl;
 
 /**
  * <p>Jedis简单配置类，包含常用的Redis属性<p/>

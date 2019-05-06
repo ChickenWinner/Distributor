@@ -4,7 +4,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import wang.reder.distributor.cache.ICacheClient;
 import wang.reder.distributor.cache.Impl.RedisClient;
-import wang.reder.distributor.interfaces.IJedisOperator;
+import wang.reder.distributor.redis.IJedisOperator;
 import wang.reder.distributor.limit.ILimit;
 import wang.reder.distributor.limit.impl.RedisLimit;
 import wang.reder.distributor.lock.ILock;
@@ -13,7 +13,7 @@ import wang.reder.distributor.lock.redis.RedisReentrantLock;
 import wang.reder.distributor.sequence.ISequence;
 import wang.reder.distributor.sequence.impl.RedisSequence;
 import wang.reder.distributor.sequence.impl.SnowflakeSequence;
-import wang.reder.distributor.utils.redis.JedisOperatorInit;
+import wang.reder.distributor.redis.impl.JedisOperatorInit;
 
 /**
  * <p>门面模式，调度系统功能<p/>
@@ -48,23 +48,6 @@ public class Distributor {
     // 情况1：带连接池配置的初始化
     public void initJedisConfig(String host, int port, String auth,
                                 JedisPoolConfig jedisPoolConfig) {
-//        // 设置Jedis连接属性
-//        // 主机 端口 密码
-//        JedisSimpleConfig config = new JedisSimpleConfig();
-//        config.setHost(host);
-//        config.setPort(port);
-//        config.setAuth(auth);
-//        // 初始化操作者
-//        JedisSimpleOperator operator = new JedisSimpleOperator();
-//        // 设置Jedis连接配置
-//        operator.setJedisConfig(config);
-//        // 如果有设置连接池配置
-//        if (jedisPoolConfig != null) {
-//            operator.setJedisPoolConfig(jedisPoolConfig);
-//        }
-//        operator.init();
-//        // 返回操作类 供下面的静态方法调用
-//        this.jedisOperator = operator;
         this.jedisOperator = jedisInit.initJedisConfig(host, port, auth, jedisPoolConfig);
     }
 
@@ -75,9 +58,6 @@ public class Distributor {
 
     // 情况3：已经拥有JedisPool直接传入即可
     public void initJedisConfig(JedisPool jedisPool) {
-//        JedisSimpleOperator operator = new JedisSimpleOperator();
-//        operator.setJedisPool(jedisPool);
-//        this.jedisOperator = operator;
         this.jedisOperator = jedisInit.initJedisConfig(jedisPool);
     }
 

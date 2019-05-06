@@ -22,8 +22,8 @@ public class LimitTest {
         ILimit limit = Distributor.newAccessLimit();
 
         for(int i = 0; i < 30; i++) {
-            // 十秒内只能返回一次
-            System.out.println(limit.accessLimit("limit", 2, 1));
+            // 十秒内只能访问一次
+            System.out.println(limit.accessLimit("limit", 10, 1));
             Thread.sleep(100);
         }
 

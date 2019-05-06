@@ -6,7 +6,7 @@ import redis.clients.jedis.Response;
 import wang.reder.distributor.cache.ICacheClient;
 import wang.reder.distributor.utils.JsonUtil;
 import wang.reder.distributor.utils.MapUtil;
-import wang.reder.distributor.utils.redis.AbstractJedis;
+import wang.reder.distributor.redis.impl.AbstractJedis;
 import java.util.Collection;
 import java.util.Map;
 

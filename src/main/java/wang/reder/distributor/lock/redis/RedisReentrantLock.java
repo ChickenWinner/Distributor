@@ -2,7 +2,7 @@ package wang.reder.distributor.lock.redis;
 
 
 import wang.reder.distributor.lock.ILock;
-import wang.reder.distributor.utils.redis.AbstractJedis;
+import wang.reder.distributor.redis.impl.AbstractJedis;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;

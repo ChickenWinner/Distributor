@@ -1,4 +1,4 @@
-package wang.reder.distributor.interfaces;
+package wang.reder.distributor.redis;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;

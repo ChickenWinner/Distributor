@@ -2,7 +2,7 @@ package wang.reder.distributor.limit.impl;
 
 import redis.clients.jedis.Jedis;
 import wang.reder.distributor.limit.ILimit;
-import wang.reder.distributor.utils.redis.AbstractJedis;
+import wang.reder.distributor.redis.impl.AbstractJedis;
 
 import java.util.ArrayList;
 import java.util.List;

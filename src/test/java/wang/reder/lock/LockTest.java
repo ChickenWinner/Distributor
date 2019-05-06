@@ -60,7 +60,6 @@ public class LockTest {
                     // 尝试加锁
                     String lockId = lock.lock();
                     if (lockId != null) {
-                        System.out.println("lockId:" + lockId);
                         lock.unLock(lockId);
                     }
                 }

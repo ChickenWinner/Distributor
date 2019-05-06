@@ -1,9 +1,9 @@
-package wang.reder.distributor.utils.redis;
+package wang.reder.distributor.redis.impl;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
-import wang.reder.distributor.interfaces.IJedisOperator;
+import wang.reder.distributor.redis.IJedisOperator;
 
 /**
  * <p>通用Jedis操作<p/>
