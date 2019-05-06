@@ -50,7 +50,7 @@ public class LockTest {
         // 获得实例
         Distributor start = Distributor.getInstance();
         // 连接配置
-        start.initJedisConfig("xxx", 6379, "");
+        start.initJedisConfig("192.168.75.132", 6379, "");
 
         CountDownLatch downLatch = new CountDownLatch(20);
         // 获得锁

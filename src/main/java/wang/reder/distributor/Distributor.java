@@ -13,11 +13,10 @@ import wang.reder.distributor.lock.redis.RedisReentrantLock;
 import wang.reder.distributor.sequence.ISequence;
 import wang.reder.distributor.sequence.impl.RedisSequence;
 import wang.reder.distributor.sequence.impl.SnowflakeSequence;
-import wang.reder.distributor.utils.redis.JedisSimpleConfig;
-import wang.reder.distributor.utils.redis.JedisSimpleOperator;
 
 /**
- * <p>开始类 初始化系统配置，调度系统功能<p/>
+ * <p>门面模式，调度系统功能<p/>
+ *
  * @author Red
  * email: 1318944013@qq.com
  * date: 2019/4/30 20:50
@@ -26,6 +25,12 @@ public class Distributor {
 
     // 开始类 单例模式
     private final static Distributor startInstance = new Distributor();
+
+    // jedis操作类，用于Jedis操作
+    private IJedisOperator jedisOperator;
+
+    // Jedis初始化类
+    private JedisInit jedisInit = new JedisInit();
 
     // 返回单例
     public static Distributor getInstance() {
@@ -37,31 +42,29 @@ public class Distributor {
 
     }
 
-    // jedis操作类，用于Jedis操作
-    private IJedisOperator jedisOperator;
-
     // ----> Jedis直接连接初始化
 
     // 情况1：带连接池配置的初始化
     public void initJedisConfig(String host, int port, String auth,
                                 JedisPoolConfig jedisPoolConfig) {
-        // 设置Jedis连接属性
-        // 主机 端口 密码
-        JedisSimpleConfig config = new JedisSimpleConfig();
-        config.setHost(host);
-        config.setPort(port);
-        config.setAuth(auth);
-        // 初始化操作者
-        JedisSimpleOperator operator = new JedisSimpleOperator();
-        // 设置Jedis连接配置
-        operator.setJedisConfig(config);
-        // 如果有设置连接池配置
-        if (jedisPoolConfig != null) {
-            operator.setJedisPoolConfig(jedisPoolConfig);
-        }
-        operator.init();
-        // 返回操作类 供下面的静态方法调用
-        this.jedisOperator = operator;
+//        // 设置Jedis连接属性
+//        // 主机 端口 密码
+//        JedisSimpleConfig config = new JedisSimpleConfig();
+//        config.setHost(host);
+//        config.setPort(port);
+//        config.setAuth(auth);
+//        // 初始化操作者
+//        JedisSimpleOperator operator = new JedisSimpleOperator();
+//        // 设置Jedis连接配置
+//        operator.setJedisConfig(config);
+//        // 如果有设置连接池配置
+//        if (jedisPoolConfig != null) {
+//            operator.setJedisPoolConfig(jedisPoolConfig);
+//        }
+//        operator.init();
+//        // 返回操作类 供下面的静态方法调用
+//        this.jedisOperator = operator;
+        this.jedisOperator = jedisInit.initJedisConfig(host, port, auth, jedisPoolConfig);
     }
 
     // 情况2：最简单的指定主机、端口、密码（如果有） 系统提供默认的JedisPoolConfig配置
@@ -71,9 +74,10 @@ public class Distributor {
 
     // 情况3：已经拥有JedisPool直接传入即可
     public void initJedisConfig(JedisPool jedisPool) {
-        JedisSimpleOperator operator = new JedisSimpleOperator();
-        operator.setJedisPool(jedisPool);
-        this.jedisOperator = operator;
+//        JedisSimpleOperator operator = new JedisSimpleOperator();
+//        operator.setJedisPool(jedisPool);
+//        this.jedisOperator = operator;
+        this.jedisOperator = jedisInit.initJedisConfig(jedisPool);
     }
 
     public IJedisOperator getJedisOperator() {
@@ -81,7 +85,7 @@ public class Distributor {
     }
 
     // 销毁JedisPool
-    public  void destory() {
+    public void destory() {
         this.jedisOperator.destroy();
     }
 
