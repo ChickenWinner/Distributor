@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class RedisReentrantLock extends AbstractJedis implements ILock {
 
+
     // 存储每个线程获取锁的信息
     private final ConcurrentHashMap<Thread, LockData> threadData = new ConcurrentHashMap<>();
 
@@ -74,6 +75,8 @@ public class RedisReentrantLock extends AbstractJedis implements ILock {
         // 该线程已经拥有锁，加锁次数加1
         if (lockData != null) {
             lockData.lockCount.incrementAndGet();
+            // 更新锁过期时间
+            redisLock.updateKey(threadData.get(currentThread).getLockId());
             return threadData.get(currentThread).getLockId();
         } else {
             // 第一次加锁

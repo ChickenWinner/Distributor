@@ -126,4 +126,9 @@ public class RedisLock extends AbstractJedis implements ILock {
     public RedisLock(int lockTimeout) {
         this.lockTimeout = lockTimeout;
     }
+
+    // 更新key的过期时间
+    void updateKey(String lockId) {
+        getJedis().setex(getKey(), lockTimeout, lockId);
+    }
 }
