@@ -3,7 +3,7 @@ package wang.reder.distributor.utils;
 import com.alibaba.fastjson.JSON;
 
 /**
- * json工具类，内部使用fastJson
+ * <p>json工具类，内部使用fastJson<p/>
  *
  * @author Red
  * email: 1318944013@qq.com

@@ -51,17 +51,19 @@ public class RedisReentrantLock extends AbstractJedis implements ILock {
         }
     }
 
-
+    // 加锁，直到成功
     @Override
     public String lock() {
         return this.tryLock(-1, null);
     }
 
+    // 尝试加锁，2秒后返回
     @Override
     public String tryLock() {
         return this.tryLock(2000, TimeUnit.MILLISECONDS);
     }
 
+    // 尝试加锁，指定尝试时间
     @Override
     public String tryLock(long tryLockTime, TimeUnit unit){
         // 获得当前线程
@@ -87,6 +89,7 @@ public class RedisReentrantLock extends AbstractJedis implements ILock {
         return lockId;
     }
 
+    // 释放可重入锁
     @Override
     public void unLock(String lockId) {
         // 获得当前线程

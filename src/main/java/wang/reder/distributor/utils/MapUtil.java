@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <p>Map工具类<p/>A
+ * <p>Map工具类<p/>
  *
- * Created by xuan on 2018/8/13.
+ * @author Red
+ * email: 1318944013@qq.com
+ * date: 2019/5/2 10:45
  */
 public abstract class MapUtil {
 
