@@ -23,11 +23,11 @@ public class RedisLock extends AbstractJedis implements ILock {
     private static final String SET_IF_NOT_EXIST = "NX";
     private static final String SET_WITH_EXPIRE_TIME = "PX";
 
-    // 默认锁过期时间 10s
-    private int lockTimeout = 10000;
+    // 默认锁过期时间 30s
+    private int lockTimeout = 30;
 
-    // 重试时间 0.5s
-    private int retryAwait = 500;
+    // 重试时间 0.5s, 这里的单位是毫秒
+    private int retryTime = 500;
 
     // new一个锁，指定名字，锁过期时间
     public RedisLock(String lockName, int lockTimeout) {
@@ -59,9 +59,12 @@ public class RedisLock extends AbstractJedis implements ILock {
         // 是否死循环获取锁
         boolean forever = tryLockTime < 0;
         // 开始获取锁的时间
-        final long startMillis = System.currentTimeMillis();
-        // 转为秒
-        final Long millisToWait = (timeUnit != null) ? timeUnit.toMillis(tryLockTime) : 0;
+        final long startTime = System.currentTimeMillis();
+        if(tryLockTime < 0) {
+            tryLockTime = 0;
+        }
+        // 统一转为毫秒
+        final Long tryTime = (timeUnit != null) ? timeUnit.toMillis(tryLockTime) : 0;
 
         String lockSuccess = null;
         // 如果没有加锁成功，循环尝试获取锁
@@ -71,12 +74,12 @@ public class RedisLock extends AbstractJedis implements ILock {
             if (lockSuccess != null) {
                 break;
             }
-            // 如果超过了获取锁的最长时间，退出
-            if (!forever && System.currentTimeMillis() - startMillis - retryAwait > millisToWait) {
+            // 如果不是必须获取到锁，超过了获取锁的最长时间，退出
+            if (!forever && System.currentTimeMillis() - startTime - retryTime > tryTime) {
                 break;
             }
             // 睡眠重试时间，避免太频繁的重试
-            LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(retryAwait));
+            LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(retryTime));
         }
         return lockSuccess;
     }
