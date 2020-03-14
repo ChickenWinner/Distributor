@@ -24,7 +24,7 @@ public class RedisLock extends AbstractJedis implements ILock {
     private static final String SET_WITH_EXPIRE_TIME = "PX";
 
     // 默认锁过期时间 30s
-    private int lockTimeout = 30;
+    private int lockTimeout = 30000;
 
     // 重试时间 0.5s, 这里的单位是毫秒
     private int retryTime = 500;
